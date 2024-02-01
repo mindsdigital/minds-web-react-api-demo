@@ -12,7 +12,11 @@ import {
 } from "../ui/dialog";
 import useAudioRecorder from "@/hooks/useAudioRecorder";
 import { useCountdown } from "usehooks-ts";
-import { validateBiometricsResponse } from "./validation";
+import {
+  AuthenticationResponse,
+  EnrollmentResponse,
+  validateBiometricsResponse
+} from "./validation";
 import { PaperPlaneIcon } from "@radix-ui/react-icons";
 
 const errors = {
@@ -117,7 +121,9 @@ export default function RecordStep({
           Authorization: `Bearer ${token}`
         },
         body: JSON.stringify(body)
-      }).then(r => r.json());
+      }).then(
+        r => r.json() as Promise<EnrollmentResponse | AuthenticationResponse>
+      );
 
       const [type, message] = validateBiometricsResponse(resp.success, resp);
 

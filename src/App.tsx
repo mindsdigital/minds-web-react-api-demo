@@ -8,6 +8,10 @@ import { Toaster } from "./components/ui/sonner";
 import usePersistantState from "./hooks/usePersistantState";
 import { jwtDecode } from "jwt-decode";
 
+interface TokenData {
+  company_id: number;
+}
+
 function App() {
   const [token, setToken] = usePersistantState("api_token", "");
   const [open, setOpen] = useState(false);
@@ -42,10 +46,7 @@ function App() {
             {token ? (
               <div className="flex flex-col gap-2">
                 <Label>Empresa</Label>
-                {
-                  (jwtDecode(token) as unknown as { company_id: number })
-                    .company_id
-                }
+                {jwtDecode<TokenData>(token).company_id}
               </div>
             ) : null}
 

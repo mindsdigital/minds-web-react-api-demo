@@ -12,6 +12,14 @@ import {
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 
+interface Response {
+  success: boolean;
+  error: {
+    code: string;
+  };
+  enrolled: boolean;
+}
+
 const mascaraTelefone = (valor: string) => {
   valor = valor.replace(/\D/g, "");
   valor = valor.replace(/^(\d{2})(\d)/g, "($1) $2");
@@ -19,7 +27,7 @@ const mascaraTelefone = (valor: string) => {
   return valor;
 };
 
-export function clearMask(value?: string) {
+function clearMask(value?: string) {
   return value ? value.replace(/[^0-9]/g, "") : "";
 }
 
@@ -35,8 +43,8 @@ export default function VerifyStep({ token, onOpenChange, onSuccess }: Props) {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
-    const doc = formData.get("document")?.toString() ?? "";
-    const phone = formData.get("phone")?.toString() ?? "";
+    const doc = clearMask(formData.get("document")?.toString() ?? "");
+    const phone = clearMask(formData.get("phone")?.toString() ?? "");
 
     const url = new URL(
       ROUTES_PREFIX + "/v2.1/enrollment/verify?document_value=" + doc
@@ -57,7 +65,7 @@ export default function VerifyStep({ token, onOpenChange, onSuccess }: Props) {
         return;
       }
 
-      const data = await response.json();
+      const data = (await response.json()) as Response;
 
       if (!data.success) {
         toast.error(
