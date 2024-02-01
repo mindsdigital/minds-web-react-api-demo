@@ -4,8 +4,8 @@ Esse é um projeto de exemplo que demonstra a utilização das apis públicas da
 
 ## Como rodar o projeto
 
-1- pnpm install
-2- pnpm run dev
+- pnpm install
+- pnpm run dev
 
 ## Como utilizar
 
