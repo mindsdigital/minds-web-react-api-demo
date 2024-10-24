@@ -1,4 +1,4 @@
-import { ROUTES_PREFIX } from "@/lib/config";
+import { ROUTES_PREFIX} from "@/lib/config";
 import { Loader2, Mic } from "lucide-react";
 import { useRef, useState } from "react";
 import { toast } from "sonner";
@@ -110,9 +110,11 @@ export default function RecordStep({
         show_details: true
       };
 
+      debugger;
       const suffix = enrollment ? "/v2.1/enrollment" : "/v2.1/authentication";
 
-      const url = new URL(ROUTES_PREFIX + suffix);
+  
+      const url = ROUTES_PREFIX + suffix
 
       const resp = await fetch(url, {
         method: "POST",

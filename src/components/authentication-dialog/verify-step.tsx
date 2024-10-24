@@ -41,21 +41,20 @@ export default function VerifyStep({ token, onOpenChange, onSuccess }: Props) {
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    debugger;
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
     const doc = clearMask(formData.get("document")?.toString() ?? "");
     const phone = clearMask(formData.get("phone")?.toString() ?? "");
 
-    const url = new URL(
-      ROUTES_PREFIX + "/v2.1/enrollment/verify?document_value=" + doc
-    );
-
+    const url = ROUTES_PREFIX +  "/v2.1/enrollment/verify?document_value=" + doc 
     try {
       setLoading(true);
 
       const response = await fetch(url, {
         headers: {
-          Authorization: `Bearer ${token}`
+          Authorization: `Bearer ${token}`,
+          "Access-Control-Allow-Origin":"*"
         }
       });
 
@@ -103,6 +102,7 @@ export default function VerifyStep({ token, onOpenChange, onSuccess }: Props) {
           <Label htmlFor="phone">Telefone</Label>
           <Input
             id="phone"
+            name="phone"
             required
             minLength={14}
             maxLength={15}
